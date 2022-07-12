@@ -1,7 +1,18 @@
 import { Router } from 'express';
+// eslint-disable-next-line no-unused-vars
+import User from './app/models/User';
+import UserController from './app/controllers/UserController';
+import SessionController from './app/controllers/SessionController';
+import authMiddleware from './app/middlewares/auth';
 
 const routes = new Router();
 
-routes.get('/teste', (req, res) => res.json({ ok: true }));
+routes.post('/users', UserController.store);
+
+routes.post('/sessions', SessionController.store);
+
+routes.use(authMiddleware);
+
+routes.put('/users', authMiddleware, UserController.update);
 
 export default routes;
